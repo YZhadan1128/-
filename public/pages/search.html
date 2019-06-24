@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>搜索播放音乐中...</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vuex"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <link rel="short icon" href="../icon/mainicon.png">
+  <link rel="stylesheet" href="../css/musicstyle.css">
+</head>
+<body>
+
+<div id="app">
+  <search></search>
+  <p class="moren"> 默认首页内容 </p>
+  <ul id="ul">
+    <li @click="getsrc(item)" v-for="(item, index) in list">
+      {{ index + 1 }} . {{ item.name }}
+    </li>
+  </ul>
+  <detail :detail="detail"></detail>
+  
+</div>
+<div class="progress">
+        <span class="start"></span>
+        <div class="progress-bar">
+          <div class="now"></div>
+        </div>
+        <span class="end"></span>
+      </div>
+      
+      <span id="span"></span>
+      <button id="btn">播放/暂停</button>
+<script>
+    const audio = document.createElement("audio");
+    const now = document.querySelector(".now");
+    const progressbar = document.querySelector(".progress-bar");
+
+//     fetch(`https://api.wulv5.com/music/search?keywords=${this.search}`)
+//   .then(res => res.json())
+//   .then(data => {
+    
+//     data.result.songs.forEach((item) => {
+//       console.log(item);
+//       const li = document.createElement("li");
+//       li.innerHTML = `<img src="${item.artists[0].img1v1Url}" width="100" height="100" >
+//         ${item.album.name}
+//       `;
+//       ul.appendChild(li);
+//       li.onclick = function () {
+//         // 音乐的真实地址 xxxxx.mp3
+//         fetch(`https://api.wulv5.com/music/song/url?id=${item.id}`)
+//           .then(res => res.json()).
+//           then(data => {
+//           console.log(data.data[0].url);
+//           audio.src = data.data[0].url;
+//           audio.play();
+//         });
+//       }
+//     })
+//   });
+    audio.ontimeupdate = function () {
+    const start = document.querySelector(".start");
+    const end = document.querySelector(".end");
+    let min = Math.floor(audio.currentTime / 60);
+    min = min.toString().length === 1 ? ("0" + min): min;
+    let sec = Math.round(audio.currentTime % 60);
+    sec = sec.toString().length === 1 ? ("0" + sec): sec;
+
+    let zmin = Math.floor(audio.duration / 60);
+    zmin = zmin.toString().length === 1 ? ("0" + zmin): zmin;
+    let zsec = Math.round(audio.duration % 60);
+    zsec = zsec.toString().length === 1 ? ("0" + zsec): zsec;
+    span.innerHTML = `${min} : ${sec} / ${zmin} : ${zsec}`;
+
+    start.innerHTML = `${min} : ${sec}`;
+    end.innerHTML = `${zmin} : ${zsec}`;
+
+
+    now.style.width = audio.currentTime / audio.duration.toFixed(3) * 100 + "%"
+  };
+  progressbar.onclick = function(e) {
+    // 元素相对于浏览器窗口的位置集合
+    console.log(this.getBoundingClientRect());
+    const left = this.getBoundingClientRect().left;
+    const pagex = e.pageX;
+    const w = (pagex - left) / this.offsetWidth;
+    now.style.width = w.toFixed(3) * 100 + "%";
+    audio.currentTime = w * audio.duration;
+  };
+
+  btn.onclick = function () {
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  }
+    const store = new Vuex.Store({
+    state: {
+      audio: document.createElement('audio'),
+      detail: {}
+    },
+    // 最好是在这里去修改state的值
+    mutations: {
+      play(state, item) {
+        $.ajax({
+          url: `https://api.wulv5.com/music/song/url?id=${item.id}`,
+          success: function ({data: [{url}]}) {
+            state.audio.src = url;
+            state.audio.play();
+            state.detail = item
+          }
+        });
+      }
+    },
+    actions: {}
+  });
+  // 搜索
+  const search = Vue.component("search", {
+    template: `<div>
+      <p class="search">搜索页面</p>
+      <input @keyup.enter="sousuo" type="text" v-model="search" placeholder="按下回车搜索" required>
+      <ul>
+        <li @click="getsrc(item)" v-for="(item, index) in serList">
+          {{ index + 1 }} . {{ item.name }} --- {{ item.artists[0].name }}
+        </li>
+      </ul>
+    </div>`,
+    data() {
+      return {
+        search: "",
+        serList: []
+      }
+    },
+    computed: {
+      ...Vuex.mapState(["audio", "detail"])
+      
+    },
+    methods: {
+      sousuo() {
+        const self = this;
+        $.ajax({
+            
+          url: `https://api.wulv5.com/music/search?keywords=${this.search}`,
+          success: function ({result: {songs}}) {
+            // console.log(songs);
+            self.serList = songs
+          }
+        })
+      },
+      ...Vuex.mapMutations(["play"]),
+      getsrc(item) {
+        this.play(item);
+        this.$store.state.detail = item;
+      }
+    }
+  });
+  // 歌曲详情页
+  const detail = Vue.component("detail", {
+    template: 
+        `<div>
+            <p class="all">默认歌曲详情页</p>
+            <img :src="detail.song.album.picUrl" width="200" height="200" alt="">
+                <p class="name">{{ detail.song.album.name }}</p>
+        </div>`,
+    computed: {
+      ...Vuex.mapState(["detail"]) //vuex
+      
+    }
+  });
+  new Vue({
+    el: "#app",
+    store,
+    data: {
+      list: []
+    },
+    created() {
+      const self = this;
+    //   console.log(self)
+      $.ajax({
+        url: "https://api.wulv5.com/music/personalized/newsong",
+        success: function ({result}) {
+        //   console.log(this);
+          self.list = result
+        //   console.log({result})
+        }
+      })
+    },
+    methods: {
+      ...Vuex.mapMutations(["play"]),
+      getsrc(item) {
+        this.play(item);
+        this.$store.state.detail = item;
+      }
+    },
+    computed: {
+      ...Vuex.mapState(["audio", "detail"])
+    },
+    components: {
+      detail,
+      search
+    }
+  })
+</script>
+
+</body>
+</html>

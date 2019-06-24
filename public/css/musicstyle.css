@@ -1,0 +1,117 @@
+@charset "utf-8";
+body{
+    background: url("../images/bcgimg.jpg") center/cover;
+}
+ul,li{
+    margin: 0;
+    padding-left: 10px;
+    list-style: none;
+}
+#app .search{
+    display: block;
+    margin: 0 auto;
+    width: 80px;
+    line-height: 30px;
+    border-radius: 5px;
+    background-color: rgb(245, 122, 122);
+    text-align: center;
+}
+#app .moren{
+    display: block;
+    margin: 0 auto;
+    width: 120px;
+    line-height: 30px;
+    border-radius: 5px;
+    background-color: rgb(245, 122, 122);
+    text-align: center;
+
+}
+#app input{
+    display: block;
+    margin: 10px auto;
+    width: 180px;
+    height: 25px;
+    outline: none;
+    outline-color: rgb(255, 155, 155);
+    text-indent: 12px;
+    border: none;
+    border-bottom: 1px solid #aaa;
+}
+#app ul>li{
+    display: block;
+    margin: 10px auto;
+    width: 53%;
+    min-width: 53%;
+    font-size: 14px;
+    color: rgb(55, 181, 253);
+    cursor: pointer;
+    border-bottom: 1px solid #aaa;
+    /* background-color: #eee; */
+}
+#app ul>li:hover{
+    color: rgb(255, 155, 155);
+}
+#app .all{
+    display: block;
+    margin: 0 auto;
+    width: 120px;
+    line-height: 30px;
+    border-radius: 5px;
+    background-color: rgb(245, 122, 122);
+    text-align: center;
+}
+#app div img{
+    display: block;
+    margin: 0 auto;
+    width:  130px;
+    height: 130px;
+    border-radius: 50%;
+}
+#app div .name{
+    padding-left: 10px;
+    font-size: 16px;
+    color: #aaa;
+    text-align: center;
+}
+.progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 380px;
+    margin: 100px auto;
+}
+
+.progress-bar {
+    position: relative;
+    width: 70%;
+    height: 5px;
+    background-color: #eee;
+    vertical-align: 2px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.now {
+    position: absolute;
+    left: 0;
+    display: inline-block;
+    height: 5px;
+    width: 70%;
+    background: #31c27c;
+}
+
+.now::after {
+    content: '';
+    position: absolute;
+    left: 100%;
+    width: 3px;
+    height: 7px;
+    background-color: lightblue;
+}
+#btn{
+    display: block;
+    margin: -50px auto 0;
+    outline: none;
+    border-radius: 5px;
+    background-color: rgba(114, 85, 85,.6);
+}

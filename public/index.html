@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="keywords" content="音乐;搜索,播放">
+    <meta name="description" content="一款小众的音乐搜索播放网页(基于网易云nodejs API开发)">
+    <meta name="author" content="Lihui">
+    <link rel="short icon" href="./icon/mainicon.png">
+    <link rel="stylesheet" href="./css/static.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/tools.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
+    <title>云村音乐</title>
+    <style>
+    body{
+            position: relative;
+            /* height: 1500px; */
+        }
+        .backtop{
+            position: fixed;
+            /* position: absolute; */
+            bottom: 15px;
+            right: 10px;
+            width: 30px;
+            height: 33px;
+            font-size: 12px;
+            /* line-height: 30px; */
+            color: #eee;
+            border-radius: 3px;
+            background-color: cyan; 
+            text-align: center;
+            cursor: pointer;
+            visibility: hidden;
+            opacity: 0;
+            transition: .6s;
+        }
+        .backtop:hover{
+            height: 45px;
+        }
+    </style>
+</head>
+<body>
+    <header id='backtop'>
+        <div class='icon fl'>
+            <a href=''><img src='./icon/mainicon.png' alt='云村' width='100' height='80'></a>
+        </div>
+        
+        <form class='search fl'>
+            <input type="text" name='study'>
+            <div id="app">
+                <!-- <search></search>
+                <ul>
+                    搜索结果 
+                    <li @click="getsrc(item)" v-for="(item, index) in list">
+                             {{ index + 1 }} . {{ item.name }} 
+                    </li>
+                </ul>
+                <detail :detail="detail"></detail> -->
+            </div>
+            <div class='another'>
+                <a href=''>点击搜索</a>
+                <!-- <a href=''>音乐</a> -->
+            </div>
+            <div class='s-btn'>
+                <a href="./pages/search.html"><span class="sear">搜索</span></a>
+            </div>
+        </form>					<!-- header form-->
+        <ul class='loginin'>	<!-- header down-->
+            <li class='down'>
+                <span>下载APP</span>
+                <div class='download'>
+                    <img src='./images/qecode.png' width='216' height='216' alt='ewm'>
+                    <p>扫描下载云村音乐app</p>
+                </div>
+            </li>				<!-- header down end-->
+            <li><a href='//localhost:3030'><span>登录</span></a>/<a href='//localhost:3030'><span>注册</span></a></li>
+            <!-- <div class='login'></div> -->
+        </ul>				<!-- header login-->
+    </header><!-- header parter HTML5 标签 头部-->
+    <nav>
+        <div class="content">
+            <ul class="list">
+                <li>首页</li>
+                <li>榜单</li>
+                <li>下载客户端</li>
+                <li>歌单</li>
+                <li>热门</li>
+                <li>电台</li>
+            </ul>
+        </div>
+    </nav>
+    <section id="current"> <!-- 导航栏 HTML5 标签 版块 -->
+        <div class="content">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="./images/1.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="./images/2.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="./images/3.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="./images/4.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="./images/5.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="./images/6.jpg" alt="">
+                    </div>
+                </div>
+                <!-- 如果需要分页器 -->
+                <div class="swiper-pagination"></div>
+                
+                <!-- 如果需要导航按钮 -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="mucislist"> <!--歌单-->
+        <div class="content">
+            <ul class="flex">
+                <li>
+                    <h3>精选歌单</h3>
+                    <div>
+                        <img src="./musiclist/1.jpg" alt="">
+                        <img src="./musiclist/2.jpg" alt="">
+                        <img src="./musiclist/3.jpg" alt="">
+                        <img src="./musiclist/4.jpg" alt="">
+                    </div>
+                </li>
+                <li>
+                    <h3>热门歌单</h3>
+                    <div>
+                        <img src="./musiclist/5.jpg" alt="">
+                        <img src="./musiclist/6.jpg" alt="">
+                        <img src="./musiclist/7.jpg" alt="">
+                        <img src="./musiclist/8.jpg" alt="">
+                    </div>
+                <li>
+                    <h3>精选电台</h3>
+                    <div>
+                        <img src="./musiclist/1.jpg" alt="">
+                        <img src="./musiclist/2.jpg" alt="">
+                        <img src="./musiclist/3.jpg" alt="">
+                        <img src="./musiclist/4.jpg" alt="">
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+    
+    <aside>
+        <!-- 侧边 小人-->
+        <img src="./images/1.gif" alt="">
+    </aside>
+
+    <footer> <!--HTML5 标签 web语义化 页面底部-->
+        <div class="content">
+            <p>这是一个选用了网易云音乐API的音乐播放网站</p>
+            <p>主要功能是搜索歌曲以及播放歌曲</p>
+            <p>一些bug和一些问题会日常更新,api使用了网易云nodejs API</p>
+            <p>接口地址: <a href="https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=neteasecloudmusicapi">网易云API</a> </p>
+            <p><a href="http://www.miitbeian.gov.cn">沪ICP备xxxxxxxx号</a></p>
+            <!-- <div class="policeba">
+                <img src="./icon/baicon.png" title="备案">
+                <span>沪公安网备xxxxxxxxxxxxxx</span>
+            </div>  备案后使用-->
+        </div>
+    </footer>
+    <section>
+        <div class="backtop">返回顶部</div>
+    </section>
+    <script>
+        //回到顶部
+        let back = document.querySelector(".backtop")
+        window.onscroll = function(){
+            if(document.documentElement.scrollTop>50){
+                back.style.visibility = "visible"
+                back.style.opacity = "1"
+                back.style.right= "13px"
+            }else{
+                back.style.visibility = "hidden"
+                back.style.opacity = "0"
+                back.style.right= "10px"
+            }
+        }
+        function backTop(){
+            function move(){
+                if(document.documentElement.scrollTop> 0){
+                    document.documentElement.scrollTop*=0.9
+                    requestAnimationFrame(move)
+                }
+            }
+            move()
+        }
+        back.addEventListener("click",function(){
+            backTop()
+        })
+    </script>
+    <script src="./js/current.js"></script> <!--  引入 swiper 轮播插件 -->
+    <script src="./js/music.js"></script>
+    <!-- <script src="js/search.js"></script> -->
+</body>
+</html>
